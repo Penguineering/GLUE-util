@@ -1,0 +1,36 @@
+GLUE Utilities library
+Copyright 2012 Stefan Haun, Thomas Low, Sebastian Stober, Andreas Nürnberger
+	Data and Knowledge Engineering Group, 
+ 	Faculty of Computer Science,
+ 	Otto-von-Guericke University,
+ 	Magdeburg, Germany
+
+
+
+The following libraries are included:
+
+GLUE Core library
+Copyright 2012 Stefan Haun, Thomas Low, Sebastian Stober, Andreas Nürnberger
+	Data and Knowledge Engineering Group, 
+ 	Faculty of Computer Science,
+ 	Otto-von-Guericke University,
+ 	Magdeburg, Germany
+
+
+
+Apache Commons Logging
+Copyright 2003-2007 The Apache Software Foundation
+
+This product includes software developed by
+The Apache Software Foundation (http://www.apache.org/).
+
+
+
+net.jcip.annotations
+
+This software is copyright (c) 2005 Brian Goetz and Tim Peierls and is released
+under the Creative Commons Attribution License 
+(http://creativecommons.org/licenses/by/2.5). The official home for this 
+software is http://www.jcip.net. Any republication or derived work distributed 
+in source code form must include the copyright and license notice.
+ 
