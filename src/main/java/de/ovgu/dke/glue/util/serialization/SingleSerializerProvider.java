@@ -32,17 +32,21 @@ import de.ovgu.dke.glue.api.serialization.Serializer;
  * Provider for a single serializer.
  * 
  * @author Stefan Haun (stefan.haun@ovgu.de)
- *
+ * 
  */
 public class SingleSerializerProvider implements SerializationProvider {
 	private final Serializer serializer;
 
 	/**
 	 * Create the provider.
-	 * @param serializer The serializer which will be provided.
+	 * 
+	 * @param serializer
+	 *            The serializer which will be provided.
 	 */
 	public SingleSerializerProvider(final Serializer serializer) {
 		if (serializer == null)
+			// TODO really NPE, what about returning empty lists and adding
+			// serializer via new addSerializer method
 			throw new NullPointerException("Serializer may not be null!");
 		this.serializer = serializer;
 	}
@@ -52,6 +56,7 @@ public class SingleSerializerProvider implements SerializationProvider {
 		return Collections.singletonList(serializer.getFormat());
 	}
 
+	// TODO doesn't recognize the format
 	@Override
 	public List<String> getSchemas(String format) {
 		return Collections.singletonList(serializer.getSchema());

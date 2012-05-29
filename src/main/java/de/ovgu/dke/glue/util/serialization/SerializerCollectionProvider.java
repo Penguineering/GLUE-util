@@ -77,6 +77,7 @@ public class SerializerCollectionProvider implements SerializationProvider {
 		return formats;
 	}
 
+	// TODO doesn't recognize the format
 	@Override
 	public List<String> getSchemas(String format) {
 		if (schemas == null) {
