@@ -21,49 +21,40 @@
  */
 package de.ovgu.dke.glue.util.serialization;
 
-import java.util.Collections;
-import java.util.List;
-
 import de.ovgu.dke.glue.api.serialization.SerializationException;
 import de.ovgu.dke.glue.api.serialization.SerializationProvider;
 import de.ovgu.dke.glue.api.serialization.Serializer;
 
 /**
- * Provider for a single serializer.
+ * This serializer just returns the original object instance.
  * 
  * @author Stefan Haun (stefan.haun@ovgu.de)
- * 
  */
-public class SingleSerializerProvider implements SerializationProvider {
-	private final Serializer serializer;
+public class NullSerializer implements Serializer {
+	public static NullSerializer valueOf(final String format) {
+		return new NullSerializer(format == null ? SerializationProvider.JAVA
+				: format);
+	}
 
-	/**
-	 * Create the provider.
-	 * 
-	 * @param serializer
-	 *            The serializer which will be provided.
-	 */
-	public SingleSerializerProvider(final Serializer serializer) {
-		if (serializer == null)
-			// TODO really NPE, what about returning empty lists and adding
-			// serializer via new addSerializer method
-			throw new NullPointerException("Serializer may not be null!");
-		this.serializer = serializer;
+	private final String format;
+
+	private NullSerializer(final String format) {
+		this.format = format;
 	}
 
 	@Override
-	public List<String> availableFormats() {
-		return Collections.singletonList(serializer.getFormat());
+	public String getFormat() {
+		return format;
 	}
 
 	@Override
-	public Serializer getSerializer(String format)
-			throws SerializationException {
-		if (serializer.getFormat().equals(format))
-			return serializer;
-
-		throw new SerializationException(
-				"Provider does not contain serializer for format " + format
-						+ "!");
+	public Object serialize(Object o) throws SerializationException {
+		return o;
 	}
+
+	@Override
+	public Object deserialize(Object o) throws SerializationException {
+		return o;
+	}
+
 }

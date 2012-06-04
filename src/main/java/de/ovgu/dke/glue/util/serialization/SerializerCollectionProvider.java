@@ -43,7 +43,6 @@ public class SerializerCollectionProvider implements SerializationProvider {
 
 	// those will be filled when needed
 	private List<String> formats = null;
-	private List<String> schemas = null;
 
 	/**
 	 * Initialize the collection from an array of serializers.
@@ -77,33 +76,17 @@ public class SerializerCollectionProvider implements SerializationProvider {
 		return formats;
 	}
 
-	// TODO doesn't recognize the format
 	@Override
-	public List<String> getSchemas(String format) {
-		if (schemas == null) {
-			schemas = new ArrayList<String>();
-
-			for (int i = 0; i < serializers.length; i++)
-				schemas.add(serializers[i].getSchema());
-
-			schemas = Collections.unmodifiableList(schemas);
-		}
-		return schemas;
-	}
-
-	@Override
-	public Serializer getSerializer(String format, String schema)
+	public Serializer getSerializer(String format)
 			throws SerializationException {
 		for (int i = 0; i < serializers.length; i++) {
 			final Serializer ser = serializers[i];
-			if (ser.getFormat().equals(format)
-					&& ser.getSchema().equals(schema))
+			if (ser.getFormat().equals(format))
 				return ser;
 		}
 
 		throw new SerializationException(
 				"Provider does not contain serializer for format " + format
-						+ " and schema " + schema + "!");
+						+ "!");
 	}
-
 }
