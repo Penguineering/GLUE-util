@@ -41,7 +41,10 @@ public class SingleSerializerProvider implements SerializationProvider {
 	 * Create the provider.
 	 * 
 	 * @param serializer
-	 *            The serializer which will be provided.
+	 *            The serializer which will be provided. May not be
+	 *            <code>null</code>.
+	 * @throws NullPointerException
+	 *             if the serializer parameter is <code>null</code>.
 	 */
 	public SingleSerializerProvider(final Serializer serializer) {
 		if (serializer == null)

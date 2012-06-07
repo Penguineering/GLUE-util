@@ -48,9 +48,15 @@ public class SerializerCollectionProvider implements SerializationProvider {
 	 * Initialize the collection from an array of serializers.
 	 * 
 	 * @param serializers
-	 *            The serializers in this collection.
+	 *            The serializers in this collection. May not be
+	 *            <code>null</code>.
+	 * @throws NullPointerException
+	 *             if the serializer parameter is <code>null</code>.
 	 */
 	public SerializerCollectionProvider(final Serializer[] serializers) {
+		if (serializers == null)
+			throw new NullPointerException("Serializer array may not be null!");
+
 		this.serializers = serializers;
 	}
 
@@ -59,7 +65,8 @@ public class SerializerCollectionProvider implements SerializationProvider {
 	 * 
 	 * @return An array of SerializerS
 	 */
-	public Serializer[] getSerializers() {
+	@SuppressWarnings("unused")
+	private Serializer[] getSerializers() {
 		return serializers;
 	}
 
@@ -69,7 +76,8 @@ public class SerializerCollectionProvider implements SerializationProvider {
 			formats = new ArrayList<String>();
 
 			for (int i = 0; i < serializers.length; i++)
-				formats.add(serializers[i].getFormat());
+				if (serializers[i] != null)
+					formats.add(serializers[i].getFormat());
 
 			formats = Collections.unmodifiableList(formats);
 		}
@@ -81,7 +89,7 @@ public class SerializerCollectionProvider implements SerializationProvider {
 			throws SerializationException {
 		for (int i = 0; i < serializers.length; i++) {
 			final Serializer ser = serializers[i];
-			if (ser.getFormat().equals(format))
+			if (ser != null && ser.getFormat().equals(format))
 				return ser;
 		}
 
