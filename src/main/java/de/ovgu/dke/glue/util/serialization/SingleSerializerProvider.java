@@ -48,8 +48,6 @@ public class SingleSerializerProvider implements SerializationProvider {
 	 */
 	public SingleSerializerProvider(final Serializer serializer) {
 		if (serializer == null)
-			// TODO really NPE, what about returning empty lists and adding
-			// serializer via new addSerializer method
 			throw new NullPointerException("Serializer may not be null!");
 		this.serializer = serializer;
 	}
