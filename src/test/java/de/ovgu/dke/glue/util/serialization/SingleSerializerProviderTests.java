@@ -1,8 +1,12 @@
 package de.ovgu.dke.glue.util.serialization;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.easymock.EasyMock;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import de.ovgu.dke.glue.api.serialization.SerializationException;
@@ -11,24 +15,37 @@ import de.ovgu.dke.glue.api.serialization.Serializer;
 
 public class SingleSerializerProviderTests {
 
+	@Before
+	public void setUp() throws Exception {
+	}
+
+	@After
+	public void tearDown() throws Exception {
+	}
+
+	/**
+	 * 1) Tests whether all registered Serializers' formats are returned. <br>
+	 * 2) Checks the order of returned formats (preferred items at first)
+	 */
 	@Test
 	public void T00_AvailableFormats() {
+		// create serializer mocks
 		Serializer binSerializer = EasyMock.createMock(Serializer.class);
-		// two method calls expected
 		EasyMock.expect(binSerializer.getFormat()).andReturn(
 				SerializationProvider.BINARY);
 		EasyMock.expect(binSerializer.getFormat()).andReturn(
 				SerializationProvider.BINARY);
-
+		// get SerializationProvider for test
 		SerializationProvider provider = new SingleSerializerProvider(
 				binSerializer);
-
+		//
 		EasyMock.replay(binSerializer);
-
+		// check count
 		assertEquals(1, provider.availableFormats().size());
+		// check order
 		assertEquals(SerializationProvider.BINARY, provider.availableFormats()
 				.get(0));
-
+		// check whether expected methods where called on Serializers
 		EasyMock.verify(binSerializer);
 	}
 
@@ -39,86 +56,58 @@ public class SingleSerializerProviderTests {
 				.availableFormats().size());
 	}
 
+	/**
+	 * 1) Get the most preferred Serializer.
+	 */
 	@Test
-	public void T10_GetSchemas() {
+	public void T10_GetSerializer() {
+		// create serializer mocks
 		Serializer stringSerializer = EasyMock.createMock(Serializer.class);
-		// two method calls expected
-		// EasyMock.expect(stringSerializer.getSchema())
-		// .andReturn("http://string");
-		// EasyMock.expect(stringSerializer.getSchema())
-		// .andReturn("http://string");
-
-		SerializationProvider provider = new SingleSerializerProvider(
-				stringSerializer);
-
-		EasyMock.replay(stringSerializer);
-
-		// assertEquals(1, provider.getSchemas(null).size());
-
-		// assertEquals("http://string",
-		// provider.getSchemas(SerializationProvider.STRING).get(0));
-
-		EasyMock.verify(stringSerializer);
-	}
-
-	@Test
-	public void T11_GetSchemas_NoSerializers() {
-		SerializationProvider ser = new SingleSerializerProvider(null);
-		// assertEquals("Schemas found, but no serializers defined.", 0, ser
-		// .getSchemas(SerializationProvider.BINARY).size());
-	}
-
-	@Test
-	public void T20_GetSerializers() {
-		Serializer stringSerializer = EasyMock.createMock(Serializer.class);
-
-		// EasyMock.expect(stringSerializer.getSchema())
-		// .andReturn("http://string");
 		EasyMock.expect(stringSerializer.getFormat()).andReturn(
 				SerializationProvider.STRING);
-
-		SerializationProvider provider = new SingleSerializerProvider(
-				stringSerializer);
-
+		EasyMock.expect(stringSerializer.getFormat()).andReturn(
+				SerializationProvider.STRING);
+		// get SerializationProvider for test
+		SerializationProvider provider =new SingleSerializerProvider(stringSerializer);
+		//
 		EasyMock.replay(stringSerializer);
-		// try {
-		// assertEquals(stringSerializer, provider.getSerializer(
-		// SerializationProvider.STRING, "http://string"));
-		// } catch (SerializationException e1) {
-		// fail(e1.toString());
-		// }
-
-		EasyMock.verify(stringSerializer);
+		// get the serializer
+		try {
+			assertEquals(stringSerializer,
+					provider.getSerializer(provider.availableFormats().get(0)));
+		} catch (SerializationException e) {
+			fail(e.toString());
+		}
 	}
 
 	@Test
-	public void T21_GetSerializers_NoSuitableSerializer() {
+	public void T11_GetSerializers_NoSuitableSerializer() {
+		// create serializer mocks
 		Serializer binSerializer = EasyMock.createMock(Serializer.class);
-
-		// EasyMock.expect(binSerializer.getSchema()).andReturn("http://binary");
 		EasyMock.expect(binSerializer.getFormat()).andReturn(
 				SerializationProvider.BINARY);
-
-		SerializationProvider provider = new SingleSerializerProvider(
-				binSerializer);
-
+		// get SerializationProvider for test
+		SerializationProvider provider = new SingleSerializerProvider(binSerializer);
+		//
 		EasyMock.replay(binSerializer);
-		// try {
-		// provider.getSerializer(SerializationProvider.BINARY,
-		// "http://string");
-		// } catch (SerializationException e1) {
-		// assertTrue(true);
-		// }
+		// get the serializer
+		try {
+			provider.getSerializer(SerializationProvider.JAVA);
+		} catch (SerializationException e) {
+			assertTrue(true);
+		}
+		// check whether expected methods where called on Serializers
+		EasyMock.verify(binSerializer);
 	}
 
 	@Test
-	public void T22_GetSerializers_NoSerializers() {
-		SerializationProvider ser = new SingleSerializerProvider(null);
-		// try {
-		// ser.getSerializer(SerializationProvider.BINARY, "http://string");
-		// } catch (SerializationException e) {
-		// assertTrue(true);
-		// }
+	public void T12_GetSerializers_NoSerializers() {
+		SerializationProvider provider = new SingleSerializerProvider(null);
+		try {
+			provider.getSerializer(SerializationProvider.BINARY);
+		} catch (SerializationException e) {
+			assertTrue(true);
+		}
 	}
 
 }
