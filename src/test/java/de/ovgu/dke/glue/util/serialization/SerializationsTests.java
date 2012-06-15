@@ -6,7 +6,7 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({ SerializerCollectionProviderTests.class,
-		SingleSerializerProviderTests.class })
+		SingleSerializerProviderTests.class, NullSerializerTests.class })
 public class SerializationsTests {
 
 }
