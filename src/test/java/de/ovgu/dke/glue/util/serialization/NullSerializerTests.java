@@ -7,7 +7,7 @@ public class NullSerializerTests extends AbstractSerializerTests {
 	
 	@Override
 	public Serializer getSerializer(String format) {
-		return NullSerializer.valueOf(format);
+		return NullSerializer.of(format);
 	}	
 
 }

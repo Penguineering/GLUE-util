@@ -26,7 +26,6 @@ import java.util.Collections;
 import java.util.List;
 
 import net.jcip.annotations.Immutable;
-
 import de.ovgu.dke.glue.api.serialization.SerializationException;
 import de.ovgu.dke.glue.api.serialization.SerializationProvider;
 import de.ovgu.dke.glue.api.serialization.Serializer;
@@ -39,60 +38,66 @@ import de.ovgu.dke.glue.api.serialization.Serializer;
  */
 @Immutable
 public class SerializerCollectionProvider implements SerializationProvider {
-	private final Serializer[] serializers;
+	/**
+	 * Get a serializer collection provider from a list of serializers.
+	 * 
+	 * @param serializers
+	 *            List of serializers; may not be {@code null}
+	 * @throws NullPointerException
+	 *             if the serializers parameter is {@code null}
+	 */
+	public static SerializationProvider of(final List<Serializer> serializers) {
+		return new SerializerCollectionProvider(serializers);
+	}
+
+	private final List<Serializer> serializers;
 
 	// those will be filled when needed
 	private List<String> formats = null;
 
 	/**
-	 * Initialize the collection from an array of serializers.
+	 * Create a serializer collection provider from a list of serializers
 	 * 
 	 * @param serializers
-	 *            The serializers in this collection. May not be
-	 *            <code>null</code>.
+	 *            List of serializers; may not be {@code null}
 	 * @throws NullPointerException
-	 *             if the serializer parameter is <code>null</code>.
+	 *             if the serializers parameter is {@code null}
 	 */
-	public SerializerCollectionProvider(final Serializer[] serializers) {
+	private SerializerCollectionProvider(final List<Serializer> serializers) {
 		if (serializers == null)
-			throw new NullPointerException("Serializer array may not be null!");
+			throw new NullPointerException("Serializer list may not be null!");
 
-		this.serializers = serializers;
-	}
-
-	/**
-	 * Get the serializers in this collection.
-	 * 
-	 * @return An array of SerializerS
-	 */
-	@SuppressWarnings("unused")
-	private Serializer[] getSerializers() {
-		return serializers;
+		this.serializers = new ArrayList<Serializer>(serializers);
 	}
 
 	@Override
 	public List<String> availableFormats() {
-		if (formats == null) {
-			formats = new ArrayList<String>();
+		if (formats == null)
+			synchronized (this) {
+				formats = new ArrayList<String>();
 
-			for (int i = 0; i < serializers.length; i++)
-				if (serializers[i] != null)
-					formats.add(serializers[i].getFormat());
+				for (final Serializer s : serializers) {
+					if (s == null)
+						continue;
 
-			formats = Collections.unmodifiableList(formats);
-		}
+					final String format = s.getFormat();
+					if (!formats.contains(format))
+						formats.add(format);
+				}
+
+				formats = Collections.unmodifiableList(formats);
+			}
 		return formats;
 	}
 
 	@Override
 	public Serializer getSerializer(String format)
 			throws SerializationException {
-		for (int i = 0; i < serializers.length; i++) {
-			final Serializer ser = serializers[i];
+		for (final Serializer ser : serializers)
 			if (ser != null && ser.getFormat().equals(format))
 				return ser;
-		}
 
+		// TODO solve this via return type!
 		throw new SerializationException(
 				"Provider does not contain serializer for format " + format
 						+ "!");

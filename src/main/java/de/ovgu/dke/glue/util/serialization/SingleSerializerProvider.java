@@ -24,6 +24,8 @@ package de.ovgu.dke.glue.util.serialization;
 import java.util.Collections;
 import java.util.List;
 
+import net.jcip.annotations.Immutable;
+
 import de.ovgu.dke.glue.api.serialization.SerializationException;
 import de.ovgu.dke.glue.api.serialization.SerializationProvider;
 import de.ovgu.dke.glue.api.serialization.Serializer;
@@ -34,19 +36,31 @@ import de.ovgu.dke.glue.api.serialization.Serializer;
  * @author Stefan Haun (stefan.haun@ovgu.de)
  * 
  */
+@Immutable
 public class SingleSerializerProvider implements SerializationProvider {
+	/**
+	 * Create a provider for the specified Serializer
+	 * 
+	 * @param serializer
+	 *            The serializer which will be provided. May not be {@code null}
+	 * @throws NullPointerException
+	 *             if the serializer parameter is {@code null}
+	 */
+	public static SingleSerializerProvider of(final Serializer serializer) {
+		return new SingleSerializerProvider(serializer);
+	}
+
 	private final Serializer serializer;
 
 	/**
 	 * Create the provider.
 	 * 
 	 * @param serializer
-	 *            The serializer which will be provided. May not be
-	 *            <code>null</code>.
+	 *            The serializer which will be provided. May not be {@code null}
 	 * @throws NullPointerException
-	 *             if the serializer parameter is <code>null</code>.
+	 *             if the serializer parameter is {@code null}
 	 */
-	public SingleSerializerProvider(final Serializer serializer) {
+	protected SingleSerializerProvider(final Serializer serializer) {
 		if (serializer == null)
 			throw new NullPointerException("Serializer may not be null!");
 		this.serializer = serializer;

@@ -28,10 +28,24 @@ import de.ovgu.dke.glue.api.serialization.Serializer;
 /**
  * This serializer just returns the original object instance.
  * 
+ * <p>
+ * WARNING: The format may be arbitrarily selected, which can result in severe
+ * runtime errors in a transport implementation. USE WITH CAUTION! In most cases
+ * this class is not what you need.
+ * </p>
+ * 
  * @author Stefan Haun (stefan.haun@ovgu.de)
  */
 public class NullSerializer implements Serializer {
-	public static NullSerializer valueOf(final String format) {
+	/**
+	 * Create a null serializer with the provided format.
+	 * 
+	 * @param format
+	 *            The format, defaults to {@link SerializationProvider.JAVA} if
+	 *            {@code null}
+	 * @return a NullSerializer for the selected format
+	 */
+	public static NullSerializer of(final String format) {
 		return new NullSerializer(format == null ? SerializationProvider.JAVA
 				: format);
 	}

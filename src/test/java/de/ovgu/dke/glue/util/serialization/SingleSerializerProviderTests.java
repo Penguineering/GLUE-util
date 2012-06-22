@@ -6,7 +6,8 @@ import de.ovgu.dke.glue.api.serialization.AbstractSerializationProviderTests;
 import de.ovgu.dke.glue.api.serialization.SerializationProvider;
 import de.ovgu.dke.glue.api.serialization.Serializer;
 
-public class SingleSerializerProviderTests extends AbstractSerializationProviderTests {
+public class SingleSerializerProviderTests extends
+		AbstractSerializationProviderTests {
 
 	@Override
 	public int getMaxNumOfSerializers() {
@@ -16,7 +17,7 @@ public class SingleSerializerProviderTests extends AbstractSerializationProvider
 	@Override
 	public SerializationProvider getSerializationProvider(
 			ArrayList<Serializer> serializers) {
-		return new SingleSerializerProvider(serializers.get(0));
+		return SingleSerializerProvider.of(serializers.get(0));
 	}
 
 }
