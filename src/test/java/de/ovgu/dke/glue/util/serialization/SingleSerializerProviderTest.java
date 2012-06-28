@@ -6,7 +6,7 @@ import de.ovgu.dke.glue.api.serialization.AbstractSerializationProviderTests;
 import de.ovgu.dke.glue.api.serialization.SerializationProvider;
 import de.ovgu.dke.glue.api.serialization.Serializer;
 
-public class SingleSerializerProviderTests extends
+public class SingleSerializerProviderTest extends
 		AbstractSerializationProviderTests {
 
 	@Override

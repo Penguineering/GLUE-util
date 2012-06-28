@@ -5,8 +5,8 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({ SerializerCollectionProviderTests.class,
-		SingleSerializerProviderTests.class, NullSerializerTests.class })
-public class SerializationsTests {
+@SuiteClasses({ SerializerCollectionProviderTest.class,
+		SingleSerializerProviderTest.class, NullSerializerTest.class })
+public class SerializationTestSuite {
 
 }

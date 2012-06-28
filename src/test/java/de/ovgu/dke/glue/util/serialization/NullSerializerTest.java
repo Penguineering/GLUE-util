@@ -3,7 +3,7 @@ package de.ovgu.dke.glue.util.serialization;
 import de.ovgu.dke.glue.api.serialization.AbstractSerializerTests;
 import de.ovgu.dke.glue.api.serialization.Serializer;
 
-public class NullSerializerTests extends AbstractSerializerTests {
+public class NullSerializerTest extends AbstractSerializerTests {
 	
 	@Override
 	public Serializer getSerializer(String format) {
