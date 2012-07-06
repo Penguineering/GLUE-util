@@ -1,7 +1,6 @@
 package de.ovgu.dke.glue.util.serialization;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.List;
 
 import de.ovgu.dke.glue.api.serialization.AbstractSerializationProviderTests;
 import de.ovgu.dke.glue.api.serialization.SerializationProvider;
@@ -15,13 +14,11 @@ public class SerializerCollectionProviderTest extends
 		return Integer.MAX_VALUE;
 	}
 
-	// TODO always prefer interfaces over implementations!! (List instead of
-	// ArrayList!)
 	@Override
 	public SerializationProvider getSerializationProvider(
-			ArrayList<Serializer> serializers) {
+			List<Serializer> serializers) {		
 		return SerializerCollectionProvider
-				.of(Arrays.asList(new Serializer[0]));
+				.of(serializers);
 	}
 
 }

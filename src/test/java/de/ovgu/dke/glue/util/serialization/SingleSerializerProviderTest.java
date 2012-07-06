@@ -1,6 +1,6 @@
 package de.ovgu.dke.glue.util.serialization;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import de.ovgu.dke.glue.api.serialization.AbstractSerializationProviderTests;
 import de.ovgu.dke.glue.api.serialization.SerializationProvider;
@@ -16,7 +16,7 @@ public class SingleSerializerProviderTest extends
 
 	@Override
 	public SerializationProvider getSerializationProvider(
-			ArrayList<Serializer> serializers) {
+			List<Serializer> serializers) {
 		return SingleSerializerProvider.of(serializers.get(0));
 	}
 
