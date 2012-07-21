@@ -2,9 +2,9 @@ package de.ovgu.dke.glue.util.serialization;
 
 import java.util.List;
 
-import de.ovgu.dke.glue.api.serialization.AbstractSerializationProviderTests;
 import de.ovgu.dke.glue.api.serialization.SerializationProvider;
 import de.ovgu.dke.glue.api.serialization.Serializer;
+import de.ovgu.dke.glue.test.serialization.AbstractSerializationProviderTests;
 
 public class SingleSerializerProviderTest extends
 		AbstractSerializationProviderTests {
