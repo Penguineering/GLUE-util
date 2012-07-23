@@ -63,11 +63,15 @@ public class NullSerializer implements Serializer {
 
 	@Override
 	public Object serialize(Object o) throws SerializationException {
+		if (o == null)
+			throw new NullPointerException("Parameter o may not be null!");
 		return o;
 	}
 
 	@Override
 	public Object deserialize(Object o) throws SerializationException {
+		if (o == null)
+			throw new NullPointerException("Parameter o may not be null!");
 		return o;
 	}
 
