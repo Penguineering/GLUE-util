@@ -93,6 +93,9 @@ public class SerializerCollectionProvider implements SerializationProvider {
 	@Override
 	public Serializer getSerializer(String format)
 			throws SerializationException {
+		if (format == null)
+			throw new NullPointerException("Format parameter may not be null!");
+
 		for (final Serializer ser : serializers)
 			if (ser != null && ser.getFormat().equals(format))
 				return ser;
