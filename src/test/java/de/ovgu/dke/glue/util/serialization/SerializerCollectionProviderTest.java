@@ -10,7 +10,7 @@ public class SerializerCollectionProviderTest extends
 		AbstractSerializationProviderTests {
 
 	@Override
-	public int getMaxNumOfSerializers() {
+	public int getNumberOfSerializers() {
 		return Integer.MAX_VALUE;
 	}
 

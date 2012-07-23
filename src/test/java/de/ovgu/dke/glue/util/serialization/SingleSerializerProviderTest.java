@@ -10,7 +10,7 @@ public class SingleSerializerProviderTest extends
 		AbstractSerializationProviderTests {
 
 	@Override
-	public int getMaxNumOfSerializers() {
+	public int getNumberOfSerializers() {
 		return 1;
 	}
 
