@@ -8,6 +8,16 @@ import de.ovgu.dke.glue.test.serialization.AbstractSerializationProviderTests;
 
 public class SerializerCollectionProviderTest extends
 		AbstractSerializationProviderTests {
+	
+/*	public SerializerCollectionProviderTest() {
+		super(new SerializerProviderBuilder() {
+			SerializationProvider build(List<Serializer> serializers) {
+				return SerializerCollectionProvider
+				.of(serializers);				
+			}
+		}, Integer.MAX_VALUE);
+	}*/
+	
 
 	@Override
 	public int getNumberOfSerializers() {
