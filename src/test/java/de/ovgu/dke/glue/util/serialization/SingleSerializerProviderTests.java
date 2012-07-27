@@ -7,17 +7,17 @@ import de.ovgu.dke.glue.api.serialization.Serializer;
 import de.ovgu.dke.glue.test.serialization.AbstractSerializationProviderTests;
 import de.ovgu.dke.glue.test.serialization.SerializationProviderBuilder;
 
-public class SerializerCollectionProviderTest extends
+public class SingleSerializerProviderTests extends
 		AbstractSerializationProviderTests {
 
-	public SerializerCollectionProviderTest() {
+	public SingleSerializerProviderTests() {
 		super(new SerializationProviderBuilder() {
 
 			@Override
 			public SerializationProvider build(List<Serializer> serializers) {
-				return SerializerCollectionProvider.of(serializers);
+				return SingleSerializerProvider.of(serializers.get(0));
 			}
-		}, Integer.MAX_VALUE);
+		}, 1);
 	}
 
 }
