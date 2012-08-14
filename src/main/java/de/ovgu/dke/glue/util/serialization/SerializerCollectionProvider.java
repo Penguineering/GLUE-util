@@ -70,6 +70,13 @@ public class SerializerCollectionProvider implements SerializationProvider {
 		this.serializers = new ArrayList<Serializer>(serializers);
 	}
 
+	/**
+	 * Get a list of available serialization formats from this collection. The
+	 * formats are in the order of the registered serializers, however,
+	 * duplicates will be ignored.
+	 * 
+	 * @return Unmodifiable List of available formats for serialization.
+	 */
 	@Override
 	public List<String> availableFormats() {
 		if (formats == null)
@@ -90,6 +97,17 @@ public class SerializerCollectionProvider implements SerializationProvider {
 		return formats;
 	}
 
+	/**
+	 * Get a Serializer for the specified format.
+	 * 
+	 * @param format
+	 *            The format to serialize to.
+	 * @return A Serializer that supports the specified format.
+	 * @throws SerializationException
+	 *             if the format is unknown.
+	 * @throws NullPointerException
+	 *             if the format parameter is {@code null}
+	 */
 	@Override
 	public Serializer getSerializer(String format)
 			throws SerializationException {
@@ -100,7 +118,6 @@ public class SerializerCollectionProvider implements SerializationProvider {
 			if (ser != null && ser.getFormat().equals(format))
 				return ser;
 
-		// TODO solve this via return type!
 		throw new SerializationException(
 				"Provider does not contain serializer for format " + format
 						+ "!");
