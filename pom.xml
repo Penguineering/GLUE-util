@@ -111,7 +111,7 @@
 		<dependency>
 			<groupId>de.ovgu.dke.glue</groupId>
 			<artifactId>glue-apitest</artifactId>
-			<version>0.2.0</version>
+			<version>0.2.2-SNAPSHOT</version>
 			<scope>test</scope>
 		</dependency>
 
