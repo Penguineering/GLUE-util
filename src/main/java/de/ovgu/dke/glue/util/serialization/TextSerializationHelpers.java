@@ -116,7 +116,7 @@ public class TextSerializationHelpers {
 		// now we get the parameters
 		final Properties props = new Properties();
 		int c = 0; // line counter
-		StringBuffer buf = new StringBuffer(); // data goes here
+		StringBuilder buf = new StringBuilder(); // data goes here
 		while (c < lines.length) {
 			// first line: data lines and parameter name
 			final String _meta = lines[c];
