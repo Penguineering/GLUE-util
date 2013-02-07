@@ -8,8 +8,6 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-		<!-- skip tests by default - FIXME -->
 		<skipTests>false</skipTests>
 	</properties>
 
@@ -111,7 +109,7 @@
 		<dependency>
 			<groupId>de.ovgu.dke.glue</groupId>
 			<artifactId>glue-apitest</artifactId>
-			<version>0.2.0</version>
+			<version>0.2.2</version>
 			<scope>test</scope>
 		</dependency>
 
