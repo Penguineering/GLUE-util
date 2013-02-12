@@ -37,7 +37,7 @@ import de.ovgu.dke.glue.api.transport.PacketThread;
  *
  */
 // TODO: Javadoc
-// TODO: implement reportimg
+// TODO: implement reporting
 public class AsyncPackageHandlerFactory implements PacketHandlerFactory {
 	
 	protected static Log log = LogFactory.getLog(AsyncPackageHandlerFactory.class);
