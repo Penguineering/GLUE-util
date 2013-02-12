@@ -90,52 +90,23 @@
 					</execution>
 				</executions>
 			</plugin>
+ 			<plugin>
+        		<groupId>org.apache.maven.plugins</groupId>
+        		<artifactId>maven-javadoc-plugin</artifactId>
+        		<version>2.9</version>
+        		<configuration>
+          			<nohelp>true</nohelp>
+        		</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+        	</plugin>						
 		</plugins>
 	</build>
-
-
-	<repositories>
-		<repository>
-			<releases>
-				<enabled>true</enabled>
-				<updatePolicy>always</updatePolicy>
-				<checksumPolicy>warn</checksumPolicy>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-				<updatePolicy>never</updatePolicy>
-				<checksumPolicy>fail</checksumPolicy>
-			</snapshots>
-
-			<id>nexus</id>
-			<name>dke-group public nexus repository</name>
-			<url>http://svndke.cs.uni-magdeburg.de:8081/nexus/content/groups/public/</url>
-			<layout>default</layout>
-		</repository>
-	</repositories>
-
-	<distributionManagement>
-
-		<!-- NOTE: if you want to deploy artifacts to the repository, you need 
-			to specify the authentication credentials in ~/.m1/settings.xml like this: 
-			<settings> ... <servers> ... <server> <id>nexus</id> <username>deployment</username> 
-			<password>deployment123</password> </server> </servers> ... </settings> id 
-			has to match the one stated below -->
-		<snapshotRepository>
-			<id>nexus.snapshots</id>
-			<name>snapshots</name>
-			<url>http://svndke.cs.uni-magdeburg.de:8081/nexus/content/repositories/snapshots</url>
-		</snapshotRepository>
-
-		<repository>
-			<uniqueVersion>false</uniqueVersion>
-			<id>nexus.releases</id>
-			<name>snapshots</name>
-			<url>http://svndke.cs.uni-magdeburg.de:8081/nexus/content/repositories/releases</url>
-			<layout>default</layout>
-		</repository>
-
-	</distributionManagement>
 
 	<!-- common dependencies -->
 	<dependencies>
