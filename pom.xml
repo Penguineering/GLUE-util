@@ -4,7 +4,7 @@
 	
 	<groupId>de.ovgu.dke.glue</groupId>
 	<artifactId>glue-util</artifactId>
-	<version>0.2.3-SNAPSHOT</version>
+	<version>0.3.0-shaun-SNAPSHOT</version>
 	
 	<name>glue-util</name>
 	<description>
@@ -121,7 +121,7 @@
 		<dependency>
 			<groupId>de.ovgu.dke.glue</groupId>
 			<artifactId>glue-core</artifactId>
-			<version>0.2.2</version>
+			<version>0.3.0-shaun-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>
 
