@@ -50,6 +50,11 @@ public class EndpointAdapter implements Endpoint {
 	}
 
 	@Override
+	public String getSchema() {
+		return schema;
+	}
+
+	@Override
 	public PacketThread openPacketThread(URI peer, PacketHandler handler)
 			throws TransportException {
 		Connection con = null;
