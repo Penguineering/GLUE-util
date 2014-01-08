@@ -8,8 +8,10 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import net.jcip.annotations.ThreadSafe;
 import de.ovgu.dke.glue.api.endpoint.Endpoint;
+import de.ovgu.dke.glue.api.serialization.SerializationProvider;
 import de.ovgu.dke.glue.api.transport.Connection;
 import de.ovgu.dke.glue.api.transport.PacketHandler;
+import de.ovgu.dke.glue.api.transport.PacketHandlerFactory;
 import de.ovgu.dke.glue.api.transport.PacketThread;
 import de.ovgu.dke.glue.api.transport.TransportException;
 import de.ovgu.dke.glue.api.transport.TransportFactory;
@@ -27,18 +29,39 @@ import de.ovgu.dke.glue.api.transport.TransportFactory;
  */
 @ThreadSafe
 public class EndpointAdapter implements Endpoint {
+	public static Endpoint forValues(String id, String schema,
+			PacketHandlerFactory packetHandlerFactory,
+			SerializationProvider serializationProvider) {
+		return new EndpointAdapter(id, schema, packetHandlerFactory,
+				serializationProvider);
+	}
+
 	private final String id;
 	private final String schema;
+	private final PacketHandlerFactory packetHandlerFactory;
+	private final SerializationProvider serializationProvider;
 
 	private final Set<TransportFactory> transportFactories;
 
-	public EndpointAdapter(String id, String schema) {
-		this.id = id;
+	private EndpointAdapter(String id, String schema,
+			PacketHandlerFactory packetHandlerFactory,
+			SerializationProvider serializationProvider) {
 		if (id == null)
 			throw new NullPointerException("ID parameter must not be null!");
+		if (schema == null)
+			throw new NullPointerException("Schema parameter must not be null!");
+		if (packetHandlerFactory == null)
+			throw new NullPointerException(
+					"Packet Handler Factory parameter must not be null!");
+		if (serializationProvider == null)
+			throw new NullPointerException(
+					"Serialization Provider parameter must not be null!");
 
-		// TODO check schema parameter
+		this.id = id;
 		this.schema = schema;
+		this.packetHandlerFactory = packetHandlerFactory;
+		this.serializationProvider = serializationProvider;
+
 		// TODO best solution for thread-safe set?
 		this.transportFactories = Collections
 				.newSetFromMap(new ConcurrentHashMap<TransportFactory, Boolean>());
@@ -46,12 +69,22 @@ public class EndpointAdapter implements Endpoint {
 
 	@Override
 	public String getId() {
-		return id;
+		return this.id;
 	}
 
 	@Override
 	public String getSchema() {
-		return schema;
+		return this.schema;
+	}
+
+	@Override
+	public PacketHandlerFactory getPacketHandlerFactory() {
+		return this.packetHandlerFactory;
+	}
+
+	@Override
+	public SerializationProvider getSerializationProvider() {
+		return this.serializationProvider;
 	}
 
 	@Override
@@ -73,18 +106,19 @@ public class EndpointAdapter implements Endpoint {
 							+ "for peer %s with schema %s!",
 					peer.toASCIIString(), schema));
 
-		return con.createThread(handler);
+		return con.createThread(this, handler);
 	}
 
 	/**
-	 * Register a transport factory to this endpoint, allowing to use the
+	 * Register a transport factory to this end-point, allowing to use the
 	 * provided transport as channels for the dispatcher.
 	 * 
 	 * @param factory
-	 *            The transport factory to be added to the endpoint.
+	 *            The transport factory to be added to the end-point.
 	 * @throws NullPointerException
 	 *             if the factory argument is <code>null</code>.
 	 */
+	@Override
 	public void registerTransportFactory(TransportFactory factory) {
 		transportFactories.add(factory);
 	}
@@ -101,5 +135,4 @@ public class EndpointAdapter implements Endpoint {
 	public void removeTransportFactory(TransportFactory factory) {
 		transportFactories.remove(factory);
 	}
-
 }
