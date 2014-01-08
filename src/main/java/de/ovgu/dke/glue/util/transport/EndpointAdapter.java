@@ -10,9 +10,7 @@ import net.jcip.annotations.ThreadSafe;
 import de.ovgu.dke.glue.api.endpoint.Endpoint;
 import de.ovgu.dke.glue.api.serialization.SerializationProvider;
 import de.ovgu.dke.glue.api.transport.Connection;
-import de.ovgu.dke.glue.api.transport.PacketHandler;
 import de.ovgu.dke.glue.api.transport.PacketHandlerFactory;
-import de.ovgu.dke.glue.api.transport.PacketThread;
 import de.ovgu.dke.glue.api.transport.TransportException;
 import de.ovgu.dke.glue.api.transport.TransportFactory;
 
@@ -88,14 +86,13 @@ public class EndpointAdapter implements Endpoint {
 	}
 
 	@Override
-	public PacketThread openPacketThread(URI peer, PacketHandler handler)
-			throws TransportException {
+	public Connection openConnection(URI peer) throws TransportException {
 		Connection con = null;
 
 		// iterate the transport factories for the connection
 		for (TransportFactory factory : transportFactories)
 			if (factory.servesPeer(peer, schema)) {
-				con = factory.createTransport(peer).getConnection(schema);
+				con = factory.createTransport(peer).getConnection(this);
 				break;
 			}
 
@@ -106,7 +103,7 @@ public class EndpointAdapter implements Endpoint {
 							+ "for peer %s with schema %s!",
 					peer.toASCIIString(), schema));
 
-		return con.createThread(this, handler);
+		return con;
 	}
 
 	/**
