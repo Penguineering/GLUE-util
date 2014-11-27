@@ -79,7 +79,11 @@ public class TextSerializationHelpers {
 
 			// parameter format:
 			// line 1: <Number of Data Lines><Space><Name>
-			final int lines = value.split("\n").length;
+			int lines = value.split("\n").length;
+			// the final new-line does not generate a split element and
+			// generates an off-by-one error
+			if (value.endsWith("\n"))
+				lines++;
 
 			text.append(lines);
 			text.append(" ");
