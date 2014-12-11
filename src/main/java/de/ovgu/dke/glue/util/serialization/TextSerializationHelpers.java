@@ -21,6 +21,8 @@
  */
 package de.ovgu.dke.glue.util.serialization;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Properties;
 
 import de.ovgu.dke.glue.api.serialization.SerializationException;
@@ -79,11 +81,7 @@ public class TextSerializationHelpers {
 
 			// parameter format:
 			// line 1: <Number of Data Lines><Space><Name>
-			int lines = value.split("\n").length;
-			// the final new-line does not generate a split element and
-			// generates an off-by-one error
-			if (value.endsWith("\n"))
-				lines++;
+			int lines = split(value, "\n").length;
 
 			text.append(lines);
 			text.append(" ");
@@ -115,7 +113,8 @@ public class TextSerializationHelpers {
 		if (text == null)
 			throw new NullPointerException("Text parameter may not be null!");
 		// split in lines
-		final String[] lines = text.split("\n");
+		// final String[] lines = text.split("\n");
+		final String[] lines = split(text, "\n");
 
 		// now we get the parameters
 		final Properties props = new Properties();
@@ -169,6 +168,53 @@ public class TextSerializationHelpers {
 		}
 
 		return props;
+	}
+
+	/**
+	 * Split a {@link String} at the delimiter.
+	 * 
+	 * <p>
+	 * Contrary to the Java implementation of String.split this method returns a
+	 * final blank element if the string ends with the delimiter, creating an
+	 * empty line for a final newline.
+	 * </p>
+	 * 
+	 * @param text
+	 * @param delimiter
+	 * @return
+	 */
+	protected static String[] split(String text, String delimiter) {
+		final List<String> segments = new LinkedList<String>();
+
+		int _idx = -1;
+		// while (_idx < text.length()) {
+		while (true) {
+			final int _first = _idx + 1;
+			_idx = text.indexOf(delimiter, _first);
+
+			if (_idx < 0) {
+				// add the last segment
+				if (_first < text.length()) {
+					final String _part = text.substring(_first);
+					segments.add(_part);
+				}
+
+				// text ends with delimiter? add a blank segment
+				// (we also want the part after the delimiter!
+				if (text.endsWith(delimiter))
+					segments.add("");
+
+				break;
+			}
+
+			final String _part = text.substring(_first, _idx);
+			segments.add(_part);
+
+			// advance to the next char
+			// _idx++;
+		}
+
+		return segments.toArray(new String[segments.size()]);
 	}
 
 }
